@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+.output/
+.wxt/
+stats.html
+
+# Store listing images, uploaded to the stores by hand
+store/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local notes and assistant instructions stay out of the repository
+*.md
+!/README.md
+.claude/

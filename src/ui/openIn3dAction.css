@@ -1,0 +1,38 @@
+/* Size comes from the Steam link next to it; the fallbacks are the button of Steam's new UI. */
+:host {
+  all: initial;
+  display: inline-flex;
+  /* the classic market link is inline text: sharing its baseline keeps both labels on one line */
+  vertical-align: baseline;
+  margin-inline-start: var(--steam-action-gap, 0px);
+}
+
+/* The body carries the reskins.gg yellow, Steam keeps its own grey and blue. */
+a {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: var(--steam-link-height, 24px);
+  padding: var(--steam-link-padding, 0 12px);
+  border-radius: var(--steam-link-radius, 2px);
+  background: rgba(255, 196, 77, 0.16);
+  color: #ffd27a;
+  font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+  font-size: var(--steam-link-font-size, 12px);
+  font-weight: var(--steam-link-font-weight, 300);
+  line-height: var(--steam-link-line-height, 16px);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+a:hover {
+  background: rgba(255, 196, 77, 0.3);
+  color: #ffe4a8;
+}
+
+a:focus-visible {
+  outline: 2px solid #ffc44d;
+  outline-offset: 1px;
+}
