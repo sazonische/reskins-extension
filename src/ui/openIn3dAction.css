@@ -4,6 +4,7 @@
   display: inline-flex;
   /* the classic market link is inline text: sharing its baseline keeps both labels on one line */
   vertical-align: baseline;
+  width: var(--steam-link-width, auto);
   margin-inline-start: var(--steam-action-gap, 0px);
 }
 
@@ -11,7 +12,10 @@
 a {
   display: inline-flex;
   align-items: center;
+  /* centres the label when the button spans a column next to a full-width link */
+  justify-content: center;
   box-sizing: border-box;
+  width: var(--steam-link-width, auto);
   height: var(--steam-link-height, 24px);
   padding: var(--steam-link-padding, 0 12px);
   border-radius: var(--steam-link-radius, 2px);
