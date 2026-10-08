@@ -1,0 +1,145 @@
+/* Steam's own dialog look, measured on the listing dialog of its new market: gradient, shadow, square corners. */
+:host {
+  all: initial;
+}
+
+dialog {
+  /* 16:9 frame plus the 56px header, inside 94% of the width and 90% of the height */
+  width: min(1280px, 94vw, calc((90vh - 56px) * 16 / 9));
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, #2e343c 0%, #23252e 100%);
+  box-shadow: 0 8px 38px 5px rgba(0, 0, 0, 0.75);
+  color: #acb2b8;
+  font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+  animation: viewer-in 0.18s ease-out;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  animation: backdrop-in 0.15s ease-out;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  height: 56px;
+  padding: 0 8px 0 20px;
+}
+
+/* Steam writes the name in bold, in the rarity colour on the market; the colour comes from the page */
+.item-name {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: #f1f2f3;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Steam's grey button, as "Inspect in Game" in the listing dialog */
+.steam-button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 2px;
+  background: #3d4450;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 300;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s;
+}
+
+.steam-button:hover {
+  background: #67707b;
+}
+
+button.steam-button {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* a switch that is on takes Valve's light blue-grey with Steam's navy text */
+.steam-button[aria-pressed="true"] {
+  background: #c7d5e0;
+  color: #1b2838;
+}
+
+.steam-button[aria-pressed="true"]:hover {
+  background: #dce5ec;
+}
+
+.steam-button svg {
+  width: 12px;
+  height: 12px;
+}
+
+.close-button {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #acb2b8;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #ffffff;
+}
+
+.close-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  background: #0d1118;
+}
+
+/* Steam's focus blue */
+:focus-visible {
+  outline: 2px solid #1a9fff;
+  outline-offset: 2px;
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+}
+
+@keyframes viewer-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog,
+  dialog::backdrop {
+    animation: none;
+  }
+}

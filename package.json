@@ -1,6 +1,6 @@
 {
   "name": "reskins-extension",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Open CS2 items from the Steam Community Market and inventory in 3D on reskins.gg",
   "private": true,
   "license": "MIT",

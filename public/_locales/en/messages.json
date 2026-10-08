@@ -12,7 +12,47 @@
     "description": "Button next to Steam's Inspect in Game."
   },
   "openIn3dActionTitle": {
-    "message": "Open this item on reskins.gg",
+    "message": "Open this item in 3D: in a window or on reskins.gg",
     "description": "Tooltip of the Open in 3D button."
+  },
+  "openIn3dInWindow": {
+    "message": "In a window",
+    "description": "Menu item of Open in 3D: the 3D viewer in a window over the Steam page."
+  },
+  "openIn3dOnSite": {
+    "message": "On reskins.gg",
+    "description": "Menu item of Open in 3D: the item page on reskins.gg in a new tab."
+  },
+  "itemViewerTitle": {
+    "message": "CS2 item in 3D | reskins.gg",
+    "description": "Name of the viewer window and its frame for screen readers."
+  },
+  "closeItemViewer": {
+    "message": "Close",
+    "description": "Close button of the viewer window."
+  },
+  "editOnSite": {
+    "message": "Edit on reskins.gg",
+    "description": "Button in the viewer window: the item page on reskins.gg, where its studio edits the item."
+  },
+  "itemViewerUnnamed": {
+    "message": "CS2 item in 3D",
+    "description": "Window heading when the Steam page shows no name for the item."
+  },
+  "originalTextures": {
+    "message": "Original",
+    "description": "Switch in the viewer window: the game textures as they are instead of the light copies."
+  },
+  "originalTexturesTitle": {
+    "message": "Game textures as they are, up to 4K: sharper, but they load longer",
+    "description": "Tooltip of the Original switch."
+  },
+  "firstPersonView": {
+    "message": "First-person view",
+    "description": "Switch in the viewer window: the item in hands, as in the game."
+  },
+  "firstPersonViewTitle": {
+    "message": "The item in hands, as in the game",
+    "description": "Tooltip of the first-person view switch."
   }
 }

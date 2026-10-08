@@ -14,6 +14,7 @@ a {
   align-items: center;
   /* centres the label when the button spans a column next to a full-width link */
   justify-content: center;
+  gap: 6px;
   box-sizing: border-box;
   width: var(--steam-link-width, auto);
   height: var(--steam-link-height, 24px);
@@ -32,6 +33,18 @@ a {
 }
 
 a:hover {
+  background: rgba(255, 196, 77, 0.3);
+  color: #ffe4a8;
+}
+
+/* the chevron says a menu opens; it shrinks with Steam's font size */
+svg {
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
+}
+
+a[aria-expanded="true"] {
   background: rgba(255, 196, 77, 0.3);
   color: #ffe4a8;
 }

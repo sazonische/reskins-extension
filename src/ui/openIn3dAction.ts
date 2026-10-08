@@ -1,5 +1,8 @@
 import { browser } from 'wxt/browser';
+import { createChevronIcon } from './icons';
 import openIn3dActionCss from './openIn3dAction.css?inline';
+import { showOpenIn3dMenu } from './openIn3dMenu';
+import type { InspectActionTarget } from './types';
 
 /** Marks our element in Steam's DOM; the look lives inside the shadow root. */
 const ACTION_HOST_CLASS = 'reskins-open-in-3d';
@@ -10,8 +13,11 @@ const STEAM_ACTION_GAP = '8px';
 /** Layout rounds widths to fractions of a pixel: a full-width link may measure this much short. */
 const SUBPIXEL_TOLERANCE = 1;
 
-/** Link that opens the item on reskins.gg in a new tab. */
-export function createOpenIn3dAction(reskinsItemUrl: string): HTMLElement {
+/**
+ * Button that offers the item in a window over Steam or on reskins.gg.
+ * It stays a link to the item page, so Ctrl, Shift or the middle button open the site in a new tab as before.
+ */
+export function createOpenIn3dAction(inspectActionTarget: InspectActionTarget): HTMLElement {
   const actionHost = document.createElement('span');
   actionHost.className = ACTION_HOST_CLASS;
   // closed shadow root: Steam's CSS and scripts do not reach the link
@@ -21,12 +27,24 @@ export function createOpenIn3dAction(reskinsItemUrl: string): HTMLElement {
   actionStyle.textContent = openIn3dActionCss;
 
   const actionLink = document.createElement('a');
-  actionLink.href = reskinsItemUrl;
+  actionLink.href = inspectActionTarget.itemPageUrl;
   actionLink.target = '_blank';
   // the inventory address carries the Steam profile, the site does not need it
   actionLink.rel = 'noopener noreferrer';
-  actionLink.textContent = browser.i18n.getMessage('openIn3dAction');
   actionLink.title = browser.i18n.getMessage('openIn3dActionTitle');
+  actionLink.setAttribute('aria-haspopup', 'menu');
+  actionLink.setAttribute('aria-expanded', 'false');
+  const actionLabel = document.createElement('span');
+  actionLabel.textContent = browser.i18n.getMessage('openIn3dAction');
+  actionLink.append(actionLabel, createChevronIcon());
+
+  actionLink.addEventListener('click', (event) => {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    // Steam's own handlers around the button do not take the click for theirs
+    event.stopPropagation();
+    showOpenIn3dMenu(actionLink, inspectActionTarget);
+  });
 
   actionShadowRoot.append(actionStyle, actionLink);
   return actionHost;

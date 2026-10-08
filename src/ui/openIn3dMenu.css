@@ -1,0 +1,84 @@
+/* Steam's grey popup: the colours of its buttons, no frame of its own. */
+:host {
+  all: initial;
+}
+
+dialog {
+  position: fixed;
+  inset: auto;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  overflow: visible;
+  background: #3d4450;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+  animation: menu-in 0.12s ease-out;
+}
+
+dialog[data-placement="above"] {
+  animation-name: menu-in-above;
+}
+
+/* the page stays visible: only the menu answers until it closes */
+dialog::backdrop {
+  background: transparent;
+}
+
+[role="menu"] {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+}
+
+[role="menuitem"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #dcdedf;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 300;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+[role="menuitem"]:hover,
+[role="menuitem"]:focus-visible {
+  background: #67707b;
+  color: #ffffff;
+  outline: none;
+}
+
+[role="menuitem"] svg {
+  flex: none;
+  width: 12px;
+  height: 12px;
+}
+
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+
+@keyframes menu-in-above {
+  from { opacity: 0; transform: translateY(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog {
+    animation: none;
+  }
+}

@@ -12,7 +12,47 @@
     "description": "Button next to Steam's Inspect in Game."
   },
   "openIn3dActionTitle": {
-    "message": "Открыть этот предмет на reskins.gg",
+    "message": "Открыть предмет в 3D: в окне или на reskins.gg",
     "description": "Tooltip of the Open in 3D button."
+  },
+  "openIn3dInWindow": {
+    "message": "В окне",
+    "description": "Menu item of Open in 3D: the 3D viewer in a window over the Steam page."
+  },
+  "openIn3dOnSite": {
+    "message": "На reskins.gg",
+    "description": "Menu item of Open in 3D: the item page on reskins.gg in a new tab."
+  },
+  "itemViewerTitle": {
+    "message": "Предмет CS2 в 3D | reskins.gg",
+    "description": "Name of the viewer window and its frame for screen readers."
+  },
+  "closeItemViewer": {
+    "message": "Закрыть",
+    "description": "Close button of the viewer window."
+  },
+  "editOnSite": {
+    "message": "Редактировать на reskins.gg",
+    "description": "Button in the viewer window: the item page on reskins.gg, where its studio edits the item."
+  },
+  "itemViewerUnnamed": {
+    "message": "Предмет CS2 в 3D",
+    "description": "Window heading when the Steam page shows no name for the item."
+  },
+  "originalTextures": {
+    "message": "Оригинал",
+    "description": "Switch in the viewer window: the game textures as they are instead of the light copies."
+  },
+  "originalTexturesTitle": {
+    "message": "Текстуры игры как есть, до 4K: чётче, но грузятся дольше",
+    "description": "Tooltip of the Original switch."
+  },
+  "firstPersonView": {
+    "message": "Вид от первого лица",
+    "description": "Switch in the viewer window: the item in hands, as in the game."
+  },
+  "firstPersonViewTitle": {
+    "message": "Предмет в руках, как в игре",
+    "description": "Tooltip of the first-person view switch."
   }
 }
