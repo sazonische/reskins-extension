@@ -17,7 +17,8 @@ button.
 
 ## Privacy and permissions
 
-- The extension asks for no permissions. It only runs content scripts on the market listing and
+- The extension asks for one permission, `storage`, to keep the volume of its 3D viewer window
+  between windows. Nothing else is stored. It only runs content scripts on the market listing and
   inventory pages of `steamcommunity.com`.
 - It reads one thing: the `href` of Steam's Inspect in Game link. The item data in that link is
   passed to reskins.gg as is, in the address of the page that opens when you click the button.

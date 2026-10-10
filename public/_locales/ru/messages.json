@@ -54,5 +54,17 @@
   "firstPersonViewTitle": {
     "message": "Предмет в руках, как в игре",
     "description": "Tooltip of the first-person view switch."
+  },
+  "soundVolume": {
+    "message": "Громкость",
+    "description": "Volume slider in the viewer window: shots and reloads in the first-person view."
+  },
+  "soundOff": {
+    "message": "Выключить звук",
+    "description": "Speaker button in the viewer window while the sound is on."
+  },
+  "soundOn": {
+    "message": "Включить звук",
+    "description": "Speaker button in the viewer window while the sound is off."
   }
 }

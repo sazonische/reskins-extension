@@ -21,26 +21,34 @@ describe('buildReskinsItemUrl', () => {
 
 describe('buildReskinsEmbedUrl', () => {
   const STARTING_LOOK = { isOriginalTextures: false, isFirstPersonView: false };
+  const FULL_VOLUME = 1;
   const HIDDEN_BUTTONS = 'textures_button=0&hands_button=0';
 
   test('frames the English viewer under the embed path, without its own texture and view buttons', () => {
-    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'en-US', STARTING_LOOK)).toBe(`https://reskins.gg/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}`);
+    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'en-US', STARTING_LOOK, FULL_VOLUME)).toBe(`https://reskins.gg/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}`);
   });
 
   test('frames the Russian viewer for every Russian language tag', () => {
     for (const russianLanguage of ['ru', 'ru-RU', 'ru_RU', 'RU']) {
-      expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, russianLanguage, STARTING_LOOK)).toBe(`https://reskins.gg/ru/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}`);
+      expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, russianLanguage, STARTING_LOOK, FULL_VOLUME)).toBe(`https://reskins.gg/ru/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}`);
     }
   });
 
   test('falls back to the English viewer for languages the site does not have', () => {
-    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'rue', STARTING_LOOK)).toBe(`https://reskins.gg/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}`);
+    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'rue', STARTING_LOOK, FULL_VOLUME)).toBe(`https://reskins.gg/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}`);
   });
 
   test('asks for the original textures and the first-person view the window switches to', () => {
-    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'ru', { isOriginalTextures: true, isFirstPersonView: false }))
+    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'ru', { isOriginalTextures: true, isFirstPersonView: false }, FULL_VOLUME))
       .toBe(`https://reskins.gg/ru/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}&textures=original`);
-    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'ru', { isOriginalTextures: true, isFirstPersonView: true }))
+    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'ru', { isOriginalTextures: true, isFirstPersonView: true }, FULL_VOLUME))
       .toBe(`https://reskins.gg/ru/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}&textures=original&view=hands`);
+  });
+
+  test('starts a new frame at the window volume, and silent when the sound is off', () => {
+    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'en', { isOriginalTextures: false, isFirstPersonView: true }, 0.35))
+      .toBe(`https://reskins.gg/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}&view=hands&volume=0.35`);
+    expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'en', STARTING_LOOK, 0))
+      .toBe(`https://reskins.gg/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}&volume=0`);
   });
 });

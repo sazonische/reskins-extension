@@ -45,7 +45,7 @@ function syncOpenIn3dAction(steamPageAdapter: SteamPageAdapter, inspectLink: HTM
   const uiLanguage = browser.i18n.getUILanguage();
   const openIn3dAction = createOpenIn3dAction({
     itemPageUrl: buildReskinsItemUrl(inspectLinkHex, uiLanguage),
-    buildViewerFrameUrl: (viewerLook) => buildReskinsEmbedUrl(inspectLinkHex, uiLanguage, viewerLook),
+    buildViewerFrameUrl: (viewerLook, soundVolume) => buildReskinsEmbedUrl(inspectLinkHex, uiLanguage, viewerLook, soundVolume),
     findItemName: () => steamPageAdapter.findItemName(inspectLink),
   });
   steamPageAdapter.mountInspectAction(inspectLink, openIn3dAction);

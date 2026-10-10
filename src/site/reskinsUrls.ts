@@ -1,5 +1,5 @@
 /** The only site the extension links to. */
-const RESKINS_ORIGIN = 'https://reskins.gg';
+export const RESKINS_ORIGIN = 'https://reskins.gg';
 
 /** Query parameter the site reads the whole item from; it finds the item page by itself. */
 const ITEM_PARAM = 'i';
@@ -12,6 +12,10 @@ const EMBED_TEXTURES_PARAM = 'textures';
 const EMBED_TEXTURES_ORIGINAL = 'original';
 const EMBED_VIEW_PARAM = 'view';
 const EMBED_VIEW_HANDS = 'hands';
+
+/** Volume the viewer starts at, 0..1; without the parameter it plays at full volume. */
+const EMBED_VOLUME_PARAM = 'volume';
+const EMBED_FULL_VOLUME = 1;
 
 /**
  * The viewer's own Original and first-person buttons hide: the window header carries both switches.
@@ -43,11 +47,12 @@ export function buildReskinsItemUrl(inspectLinkHex: string, uiLanguage: string):
   return reskinsItemUrl.href;
 }
 
-/** Item hex -> the frame address of its 3D viewer in the browser's language, in the asked look. */
-export function buildReskinsEmbedUrl(inspectLinkHex: string, uiLanguage: string, viewerLook: ViewerLook): string {
+/** Item hex -> the frame address of its 3D viewer in the browser's language, in the asked look and volume. */
+export function buildReskinsEmbedUrl(inspectLinkHex: string, uiLanguage: string, viewerLook: ViewerLook, soundVolume: number): string {
   const reskinsEmbedUrl = new URL(`${findSitePrefix(uiLanguage)}/${EMBED_PATH}/${inspectLinkHex}`, RESKINS_ORIGIN);
   for (const hiddenButtonParam of EMBED_HIDDEN_BUTTON_PARAMS) reskinsEmbedUrl.searchParams.set(hiddenButtonParam, EMBED_BUTTON_HIDDEN);
   if (viewerLook.isOriginalTextures) reskinsEmbedUrl.searchParams.set(EMBED_TEXTURES_PARAM, EMBED_TEXTURES_ORIGINAL);
   if (viewerLook.isFirstPersonView) reskinsEmbedUrl.searchParams.set(EMBED_VIEW_PARAM, EMBED_VIEW_HANDS);
+  if (soundVolume !== EMBED_FULL_VOLUME) reskinsEmbedUrl.searchParams.set(EMBED_VOLUME_PARAM, String(soundVolume));
   return reskinsEmbedUrl.href;
 }

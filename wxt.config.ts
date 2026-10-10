@@ -7,6 +7,8 @@ export default defineConfig({
     name: '__MSG_extensionName__',
     description: '__MSG_extensionDescription__',
     default_locale: 'en',
+    // keeps the viewer window volume between windows; nothing else is stored
+    permissions: ['storage'],
     ...(browser === 'firefox' && {
       browser_specific_settings: {
         gecko: {

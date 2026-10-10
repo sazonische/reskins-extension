@@ -92,6 +92,89 @@ button.steam-button {
   height: 12px;
 }
 
+/* speaker and slider on one grey button, as Steam's video player keeps them together */
+.sound-volume {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  height: 32px;
+  padding-right: 12px;
+  border-radius: 2px;
+  background: #3d4450;
+}
+
+.mute-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.mute-button:hover {
+  background: #67707b;
+}
+
+.mute-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Steam client sliders: blue fill, white knob */
+.volume-slider {
+  width: 72px;
+  height: 32px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+}
+
+.volume-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #1a9fff var(--volume-percent), #67707b var(--volume-percent));
+}
+
+.volume-slider::-webkit-slider-thumb {
+  width: 12px;
+  height: 12px;
+  /* centres the knob on the 4px track */
+  margin-top: -4px;
+  border: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  appearance: none;
+}
+
+.volume-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: #67707b;
+}
+
+.volume-slider::-moz-range-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: #1a9fff;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
 .close-button {
   display: grid;
   flex: none;

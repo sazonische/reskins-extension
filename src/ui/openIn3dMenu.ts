@@ -31,7 +31,9 @@ export function showOpenIn3dMenu(anchorLink: HTMLElement, inspectActionTarget: I
   windowItem.textContent = browser.i18n.getMessage('openIn3dInWindow');
   windowItem.addEventListener('click', () => {
     closeOpenIn3dMenu();
-    openItemViewerWindow(inspectActionTarget, anchorLink);
+    openItemViewerWindow(inspectActionTarget, anchorLink).catch((error: unknown) => {
+      console.warn('[reskins] the viewer window did not open', error);
+    });
   });
 
   const siteItem = document.createElement('a');

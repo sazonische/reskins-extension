@@ -25,3 +25,12 @@ export const createExternalLinkIcon = (): SVGSVGElement => createLineIcon('M9 3h
 
 /** A cross: closes the window. */
 export const createCloseIcon = (): SVGSVGElement => createLineIcon('M4 4l8 8M12 4l-8 8');
+
+/** Speaker outline shared by both sound icons. */
+const SPEAKER_PATH = 'M2 6h2.5L8 3v10l-3.5-3H2z';
+
+/** A speaker with sound waves: the sound is on. */
+export const createSpeakerIcon = (): SVGSVGElement => createLineIcon(`${SPEAKER_PATH}M10.5 5.8a3 3 0 0 1 0 4.4M12.5 3.8a6 6 0 0 1 0 8.4`);
+
+/** A speaker with a cross: the sound is off. */
+export const createMutedSpeakerIcon = (): SVGSVGElement => createLineIcon(`${SPEAKER_PATH}M11 6l4 4M15 6l-4 4`);

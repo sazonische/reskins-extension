@@ -1,7 +1,9 @@
 import { browser } from 'wxt/browser';
 import { createCloseIcon, createExternalLinkIcon } from './icons';
 import itemViewerWindowCss from './itemViewerWindow.css?inline';
-import type { ViewerLook } from '../site/reskinsUrls';
+import { createSoundVolumeControl } from './soundVolumeControl';
+import { buildSoundVolumeMessage, isReadyMessage } from '../site/reskinsEmbedMessages';
+import { RESKINS_ORIGIN, type ViewerLook } from '../site/reskinsUrls';
 import type { InspectActionTarget } from './types';
 
 /** Marks our window in Steam's DOM; the look lives inside the shadow root. */
@@ -10,7 +12,10 @@ const WINDOW_HOST_CLASS = 'reskins-item-viewer';
 let closeShownWindow: (() => void) | null = null;
 
 /** Shows the item's 3D viewer in a window over the Steam page; the frame exists only while the window is open. */
-export function openItemViewerWindow(inspectActionTarget: InspectActionTarget, returnFocusElement: HTMLElement): void {
+export async function openItemViewerWindow(inspectActionTarget: InspectActionTarget, returnFocusElement: HTMLElement): Promise<void> {
+  const soundVolumeControl = await createSoundVolumeControl((soundVolume) => {
+    if (isViewerFrameListening) postSoundVolume(viewerFrame, soundVolume);
+  });
   closeItemViewerWindow();
 
   const windowHost = document.createElement('div');
@@ -49,10 +54,12 @@ export function openItemViewerWindow(inspectActionTarget: InspectActionTarget, r
 
   const windowHeader = document.createElement('div');
   windowHeader.className = 'header';
-  windowHeader.append(itemName, firstPersonViewSwitch, originalTexturesSwitch, editLink, closeButton);
+  windowHeader.append(itemName, soundVolumeControl.controlElement, firstPersonViewSwitch, originalTexturesSwitch, editLink, closeButton);
 
   const viewerLook: ViewerLook = { isOriginalTextures: false, isFirstPersonView: false };
-  let viewerFrame = createViewerFrame(inspectActionTarget.buildViewerFrameUrl(viewerLook));
+  let viewerFrame = createViewerFrame(inspectActionTarget.buildViewerFrameUrl(viewerLook, soundVolumeControl.getSoundVolume()));
+  // until the frame page listens, a message is lost, and Chrome warns about one sent to the blank page before it
+  let isViewerFrameListening = false;
 
   const viewerDialog = document.createElement('dialog');
   viewerDialog.setAttribute('aria-label', itemName.textContent);
@@ -91,9 +98,10 @@ export function openItemViewerWindow(inspectActionTarget: InspectActionTarget, r
   const showViewerLook = (): void => {
     firstPersonViewSwitch.setAttribute('aria-pressed', String(viewerLook.isFirstPersonView));
     originalTexturesSwitch.setAttribute('aria-pressed', String(viewerLook.isOriginalTextures));
-    const nextViewerFrame = createViewerFrame(inspectActionTarget.buildViewerFrameUrl(viewerLook));
+    const nextViewerFrame = createViewerFrame(inspectActionTarget.buildViewerFrameUrl(viewerLook, soundVolumeControl.getSoundVolume()));
     viewerFrame.replaceWith(nextViewerFrame);
     viewerFrame = nextViewerFrame;
+    isViewerFrameListening = false;
   };
   firstPersonViewSwitch.addEventListener('click', () => {
     viewerLook.isFirstPersonView = !viewerLook.isFirstPersonView;
@@ -103,9 +111,17 @@ export function openItemViewerWindow(inspectActionTarget: InspectActionTarget, r
     viewerLook.isOriginalTextures = !viewerLook.isOriginalTextures;
     showViewerLook();
   });
+  // the frame says when it listens and gets the volume set while it loaded
+  const handleViewerFrameMessage = (event: MessageEvent): void => {
+    if (event.source !== viewerFrame.contentWindow || event.origin !== RESKINS_ORIGIN || !isReadyMessage(event.data)) return;
+    isViewerFrameListening = true;
+    postSoundVolume(viewerFrame, soundVolumeControl.getSoundVolume());
+  };
+  window.addEventListener('message', handleViewerFrameMessage);
 
   closeShownWindow = () => {
     closeShownWindow = null;
+    window.removeEventListener('message', handleViewerFrameMessage);
     viewerDialog.close();
     // removing the frame stops the 3D and frees its memory
     windowHost.remove();
@@ -127,6 +143,11 @@ function createLookSwitch(labelMessage: 'firstPersonView' | 'originalTextures', 
   lookSwitch.title = browser.i18n.getMessage(titleMessage);
   lookSwitch.setAttribute('aria-pressed', 'false');
   return lookSwitch;
+}
+
+/** A message, not a new address: a new frame would reload the 3D on every step of the slider. */
+function postSoundVolume(viewerFrame: HTMLIFrameElement, soundVolume: number): void {
+  viewerFrame.contentWindow?.postMessage(buildSoundVolumeMessage(soundVolume), RESKINS_ORIGIN);
 }
 
 function createViewerFrame(viewerFrameUrl: string): HTMLIFrameElement {

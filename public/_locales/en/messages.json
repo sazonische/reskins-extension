@@ -54,5 +54,17 @@
   "firstPersonViewTitle": {
     "message": "The item in hands, as in the game",
     "description": "Tooltip of the first-person view switch."
+  },
+  "soundVolume": {
+    "message": "Volume",
+    "description": "Volume slider in the viewer window: shots and reloads in the first-person view."
+  },
+  "soundOff": {
+    "message": "Mute",
+    "description": "Speaker button in the viewer window while the sound is on."
+  },
+  "soundOn": {
+    "message": "Unmute",
+    "description": "Speaker button in the viewer window while the sound is off."
   }
 }
