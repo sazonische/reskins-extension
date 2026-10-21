@@ -22,9 +22,9 @@ describe('buildReskinsItemUrl', () => {
 describe('buildReskinsEmbedUrl', () => {
   const STARTING_LOOK = { isOriginalTextures: false, isFirstPersonView: false };
   const FULL_VOLUME = 1;
-  const HIDDEN_BUTTONS = 'textures_button=0&hands_button=0';
+  const HIDDEN_BUTTONS = 'textures_button=0&hands_button=0&volume_button=0';
 
-  test('frames the English viewer under the embed path, without its own texture and view buttons', () => {
+  test('frames the English viewer under the embed path, without its own texture, view and volume buttons', () => {
     expect(buildReskinsEmbedUrl(INSPECT_LINK_HEX, 'en-US', STARTING_LOOK, FULL_VOLUME)).toBe(`https://reskins.gg/embed/${INSPECT_LINK_HEX}?${HIDDEN_BUTTONS}`);
   });
 

@@ -18,10 +18,10 @@ const EMBED_VOLUME_PARAM = 'volume';
 const EMBED_FULL_VOLUME = 1;
 
 /**
- * The viewer's own Original and first-person buttons hide: the window header carries both switches.
+ * The viewer's own Original, first-person and volume buttons hide: the window header carries all three.
  * Original reloads the frame by itself, and Steam's `frame-src` lets a frame load only when the extension starts it.
  */
-const EMBED_HIDDEN_BUTTON_PARAMS = ['textures_button', 'hands_button'];
+const EMBED_HIDDEN_BUTTON_PARAMS = ['textures_button', 'hands_button', 'volume_button'];
 const EMBED_BUTTON_HIDDEN = '0';
 
 /** English lives at the site root, Russian under its prefix. */
