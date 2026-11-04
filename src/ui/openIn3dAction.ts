@@ -52,7 +52,8 @@ export function createOpenIn3dAction(inspectActionTarget: InspectActionTarget): 
 
 /**
  * Gives the mounted action the size of the Steam link and Steam's spacing between buttons.
- * Steam draws that link as a compact button in its new UI and as a padded text link on the classic market.
+ * Steam draws that link as a compact button in its new UI, as a padded text link on the classic market
+ * and as a menu row on trade offers.
  */
 export function matchSteamLinkLook(openIn3dAction: HTMLElement, inspectLink: HTMLAnchorElement): void {
   const linkStyle = getComputedStyle(inspectLink);
@@ -63,8 +64,8 @@ export function matchSteamLinkLook(openIn3dAction: HTMLElement, inspectLink: HTM
   // flex rows of the new UI space buttons with a gap, the classic text block does not
   const hasContainerGap = actionContainer !== null
     && Number.parseFloat(getComputedStyle(actionContainer).columnGap) > 0;
-  // a full-width button in a column of buttons (MarketApp's item panel) gets a full-width neighbour
-  const isFullWidthInColumn = actionContainer !== null && spansButtonColumn(inspectLink, actionContainer);
+  // a link on a whole line (a button in MarketApp's column, a row of the trade offer menu) gets a whole-line neighbour
+  const isWholeLineLink = actionContainer !== null && spansWholeLine(inspectLink, linkStyle, actionContainer);
 
   // custom properties read by openIn3dAction.css
   const steamLookProperties: Record<string, string> = {
@@ -73,8 +74,11 @@ export function matchSteamLinkLook(openIn3dAction: HTMLElement, inspectLink: HTM
     '--steam-link-radius': linkStyle.borderRadius,
     '--steam-link-font-size': linkStyle.fontSize,
     '--steam-link-font-weight': linkStyle.fontWeight,
-    '--steam-action-gap': hasContainerGap ? '0px' : STEAM_ACTION_GAP,
-    '--steam-link-width': isFullWidthInColumn ? '100%' : 'auto',
+    // a line of its own is already apart from the link
+    '--steam-action-gap': hasContainerGap || isWholeLineLink ? '0px' : STEAM_ACTION_GAP,
+    '--steam-link-width': isWholeLineLink ? '100%' : 'auto',
+    // a flex link places its label with justify-content, a block link with text-align
+    '--steam-link-label-align': linkStyle.display.includes('flex') ? linkStyle.justifyContent : linkStyle.textAlign,
   };
   // a link in a hidden panel measures 0, the stylesheet fallback fits it then
   if (linkHeight > 0) steamLookProperties['--steam-link-height'] = `${String(linkHeight)}px`;
@@ -84,13 +88,16 @@ export function matchSteamLinkLook(openIn3dAction: HTMLElement, inspectLink: HTM
   }
 }
 
-/** The link fills the whole width of a container that stacks its buttons vertically. */
-function spansButtonColumn(inspectLink: HTMLAnchorElement, linkContainer: HTMLElement): boolean {
+/** The link fills the whole width of a container that stacks its children one under another. */
+function spansWholeLine(inspectLink: HTMLAnchorElement, linkStyle: CSSStyleDeclaration, linkContainer: HTMLElement): boolean {
   const containerStyle = getComputedStyle(linkContainer);
-  const isColumn = containerStyle.display.includes('flex') && containerStyle.flexDirection.startsWith('column');
+  // a flex row and a grid put children side by side; a block container stacks only block links
+  const isStackedLine = containerStyle.display.includes('flex')
+    ? containerStyle.flexDirection.startsWith('column')
+    : containerStyle.display === 'block' && linkStyle.display === 'block';
   const containerContentWidth = linkContainer.clientWidth
     - Number.parseFloat(containerStyle.paddingLeft)
     - Number.parseFloat(containerStyle.paddingRight);
   const linkWidth = inspectLink.getBoundingClientRect().width;
-  return isColumn && linkWidth > 0 && linkWidth >= containerContentWidth - SUBPIXEL_TOLERANCE;
+  return isStackedLine && linkWidth > 0 && linkWidth >= containerContentWidth - SUBPIXEL_TOLERANCE;
 }

@@ -11,6 +11,8 @@ Works in Chrome, Edge, Opera, Brave and Firefox.
 - Steam Community Market listing pages for CS2: in every listing row of the classic market and in
   the listing dialog of the new market.
 - Steam inventories (`/id/…/inventory`, `/profiles/…/inventory`): in the panel of the selected item.
+- Steam trade offers (`/tradeoffer/…`): in the menu that the arrow on an item opens, under Inspect
+  in Game.
 
 Items whose Steam link does not carry the item itself (old `S…A…D…` and `M…A…D…` links) get no
 button.
@@ -18,13 +20,14 @@ button.
 ## Privacy and permissions
 
 - The extension asks for one permission, `storage`, to keep the volume of its 3D viewer window
-  between windows. Nothing else is stored. It only runs content scripts on the market listing and
-  inventory pages of `steamcommunity.com`.
+  between windows. Nothing else is stored. It only runs content scripts on the market listing,
+  inventory and trade offer pages of `steamcommunity.com`.
 - It reads one thing: the `href` of Steam's Inspect in Game link. The item data in that link is
   passed to reskins.gg as is, in the address of the page that opens when you click the button.
   Nothing leaves the browser before that click. The stores list this as "website content".
-- It does not read cookies, session data, trade offers or profile data, makes no network requests
-  of its own and has no analytics.
+- It does not read cookies, session data or profile data. On a trade offer page it reads only the
+  link in the item menu you open and that item's name, not the offer or your trade partner. It makes no
+  network requests of its own and has no analytics.
 - The new tab is opened with `noreferrer`, so reskins.gg does not learn which Steam page you came
   from.
 

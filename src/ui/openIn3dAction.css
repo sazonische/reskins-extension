@@ -12,8 +12,8 @@
 a {
   display: inline-flex;
   align-items: center;
-  /* centres the label when the button spans a column next to a full-width link */
-  justify-content: center;
+  /* on a whole line the label sits where Steam's link puts its own */
+  justify-content: var(--steam-link-label-align, center);
   gap: 6px;
   box-sizing: border-box;
   width: var(--steam-link-width, auto);
